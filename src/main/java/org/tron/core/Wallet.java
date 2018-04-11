@@ -54,10 +54,12 @@ import org.tron.protos.Contract.TransferContract;
 import org.tron.protos.Contract.VoteWitnessContract;
 import org.tron.protos.Contract.WitnessCreateContract;
 import org.tron.protos.Contract.WitnessUpdateContract;
+import org.tron.protos.Protocol;
 import org.tron.protos.Protocol.Account;
 import org.tron.protos.Protocol.Block;
 import org.tron.protos.Protocol.TXOutput;
 import org.tron.protos.Protocol.Transaction;
+import org.tron.protos.Protocol.DynamicProperties;
 
 @Slf4j
 public class Wallet {
@@ -306,6 +308,12 @@ public class Wallet {
   public NumberMessage totalTransaction() {
     Builder builder = NumberMessage.newBuilder()
         .setNum(dbManager.getTransactionStore().getTotalTransactions());
+    return builder.build();
+  }
+
+  public DynamicProperties getDynamicProperties() {
+    DynamicProperties.Builder builder = DynamicProperties.newBuilder();
+    builder.setLastSolidityBlockNum(dbManager.getDynamicPropertiesStore().getLatestSolidifiedBlockNum());
     return builder.build();
   }
 }
